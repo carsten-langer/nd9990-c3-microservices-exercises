@@ -2,15 +2,27 @@ language: generic
 
 os: linux
 
+services:
+ - docker
+
 jobs:
   include:
-    services:
-     - docker
-    script:
-      - docker --version # print the version for logging
-      - cd ./lesson-2-containers/exercises/simple-node
-      - docker build -t simple-node .
-      - docker tag simple-node langerca/udacity-simple-node:latest
-    after_success:
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker push langerca/udacity-simple-node:latest
+    - name: build and upload simple-node docker image
+      script:
+        - docker --version # print the version for logging
+        - cd ./lesson-2-containers/exercises/simple-node
+        - docker build -t simple-node .
+        - docker tag simple-node langerca/udacity-simple-node:latest
+      after_success:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push langerca/udacity-simple-node:latest
+
+    - name: build and upload simple-express docker image
+      script:
+        - docker --version # print the version for logging
+        - cd ./lesson-5-kubernetes-for-production/exercises/simple-express   
+        - docker build -t simple-express .
+        - docker tag simple-express langerca/udacity-simple-express:latest
+      after_success:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push langerca/udacity-simple-express:latest
