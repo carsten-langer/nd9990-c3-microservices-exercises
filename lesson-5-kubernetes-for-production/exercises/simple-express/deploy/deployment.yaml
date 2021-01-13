@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: simple-express
-        image: isjustintime/simple-express
+        image: langerca/udacity-simple-express:latest
         ports:
         - containerPort: 8080
         livenessProbe:
