@@ -26,3 +26,15 @@ jobs:
       after_success:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker push langerca/udacity-simple-express:latest
+
+    - name: build and upload ngnix docker image with config for my-app-2-svc
+      script:
+        - docker --version # print the version for logging
+        - cd ./lesson-5-kubernetes-for-production/demos/reverse-proxy
+        - docker build -t reverse-proxy-my-app-2-svc .
+        - docker tag reverse-proxy-my-app-2-svc langerca/udacity-reverse-proxy-my-app-2-svc:latest
+      after_success:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push langerca/udacity-reverse-proxy-my-app-2-svc:latest
+
+
